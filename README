@@ -1,0 +1,12 @@
+This is my implementation of the "Use the twitch.tv JSON API" challenge on
+freecodecamp.com
+(https://www.freecodecamp.com/challenges/use-the-twitchtv-json-api). 
+
+Users see a list of channels containing info such as channel names, followers,
+whether they are live, what they are streaming etc. Channels can be added and
+removed from the list.
+
+I used react and es6. Please note that dist/js/react.js and
+dist/js/react-dom.js are symlinks to node_modules, on windows you may have to
+manually copy the libraries to dist/js.
+

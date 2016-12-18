@@ -1,0 +1,17 @@
+{
+    "libs": ["browser"],
+    "loadEagerly": [
+        "./dist/js/react.js",
+        "./dist/js/react-dom.js"
+    ],
+    "plugins": {
+        "es_modules": {},
+        "node": {}
+    },
+    "libs": [
+        "ecma5",
+        "ecma6",
+        "browser"
+    ],
+    "ecmaVersion": 6
+}
