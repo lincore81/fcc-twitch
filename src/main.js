@@ -7,28 +7,45 @@ const storageKey = `lincore.fcc-twitch-app`;
 document.addEventListener(`DOMContentLoaded`, main);
 
 function main() {
-    const state = init();
+    const mock = true;
+    const state = init(mock);
+    renderView(state);
     window.appState = state; // for debugging
+    if (mock) return;
     const promises = state.channels.map(query);    
     Promise.all(promises)
         .then(response => {
             console.log(`response:`, response);
             state.channelData = response;
-            render(<TwitchApp props={state}/>, document.getElementById(`app`));
+            // for mocking:
+            localStorage.setItem(`twitch-state`, JSON.stringify(state));
+            renderView(state);
         }).catch(console.error.bind(console));
 }
 
-function init() {
-    let channels = load(storageKey) || [`freecodecamp`, `jefmajor`, `northernlion`, `quill18`];
+function renderView(state) {
+    render(<TwitchApp channels={state.channelData}/>, 
+            document.getElementById(`app`));
+}
+
+function init(mock=false) {
+    if (mock) {
+        const state = load(`twitch-state`);
+        if (state) return state; 
+    }
+    const channels = load(storageKey) || [`freecodecamp`, `jefmajor`, `northernlion`, `quill18`];
+    const channelData = channels.map(name => ({
+        displayName: name,
+        loading: true
+    }));
     return {
         channels,
-        channelData: {}
+        channelData,
     };
 }
 
 function load(key) {
     const json = localStorage.getItem(key);
-    console.log(`load:`, json);
     if (json) try {
         return JSON.parse(json);
     } catch (e) {

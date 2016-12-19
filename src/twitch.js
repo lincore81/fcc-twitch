@@ -74,10 +74,10 @@ function handleTwitchResponse(channelName, responses) {
     ans.isLive = isLive;
     ans.stream = stream;
     ans.channel = channel;
-    ans.displayName = channel.displayName;
+    ans.displayName = channel.display_name;
     ans.bio = user.bio;
     ans.channelUrl = channel.url;
-    ans.profilePic = channel.log;
+    ans.profilePic = channel.logo;
     if (isLive) ans.preview = stream.preview;
     return ans;
 }

@@ -1,87 +1,96 @@
+const LoadingComp = () => (<p>Loading...</p>);
 
-const ChannelPicComp = props => (
-    <a href={props.url} className="external" title={`${props.displayName}'s channel`}>
-        <img src={props.src} />
+const ChannelPicComp = ({displayName, src, url}) => (
+    <a href={url} className="external" title={`${displayName}'s channel`}>
+        <img className="img-fluid profile-pic" src={src} />
     </a>);
 
-const ChannelNameComp = props => (
-    <a href={props.url} className="external" title={`${props.displayName}'s channel`}>
-        <span className="channel-name">{props.displayName}</span>
+const ChannelNameComp = ({displayName, url}) => (
+    <a href={url} className="external" title={`${displayName}'s channel`}>
+        <span className="channel-name">{displayName}</span>
     </a>);
 
-const ChannelStreamingComp = props => {
-    return props.isLive?
+const ChannelLiveIndicatorComp = ({isLive}) => {
+    return isLive?
         (<span className="channel-streaming live">L I V E</span>) : 
         (<span className="channel-streaming">offline</span>);
 };
 
-const ChannelFollowersComp = props => (
+const ChannelFollowersComp = ({followers}) => (
     <span title="Followers">
         <i className="fa fa-user" aria-hidden="true"></i>
         <span className="sr-only">Followers: </span>
-        <span className="channel-followers">{props.followers}</span>
+        <span className="channel-followers">{followers}</span>
     </span>);
 
-const ChannelBioComp = props => (
+const ChannelBioComp = ({bio}) => (
     <div className="channel-bio">
-        {props.bio}
+        {bio}
     </div>);
 
 
 
-const ChannelComp = props => {
-    console.log(`ChannelComp:`, props);
+const ChannelComp = ({channel}) => {
     return (
     <div className="row channel">
         <div className="col-xs-2">
-            <ChannelPicComp displayName={props.displayName} url={props.channelUrl} src={props.profilePic} />
+            <ChannelPicComp displayName={channel.displayName} url={channel.channelUrl} src={channel.profilePic} />
         </div>
         <div className="col-xs-10">
             <div className="row channel-header">
                 <div className="col-xs-9">
-                    <ChannelNameComp displayName={props.displayName} url={props.channelUrl} />
-                    <ChannelStreamingComp isLive={props.isLive} />
+                    <ChannelNameComp displayName={channel.displayName} url={channel.channelUrl} />
+                    <ChannelLiveIndicatorComp isLive={channel.isLive} />
                 </div>
                 <div className="col-xs-3">
-                    <ChannelFollowersComp followers={props.followers} />
+                    <ChannelFollowersComp followers={channel.followers} />
                 </div>
             </div>
             <div className="row channel-content">
                 <div className="col-xs-12">
-                    <ChannelBioComp bio={props.bio} />
+                    <ChannelBioComp bio={channel.bio} />
                 </div>
             </div>
         </div>
     </div>);
 };
 
-const ChannelListComp = props => {
-    console.log(`ChannelListComp`, props);
-    return (
-    <div className="channel-list">
-        {props.props.channelData.map((channel, i) => 
-            <ChannelComp key = {i} data = {channel} />)}
+const ChannelListItem = ({channel, i}) => 
+    (<div className="channel-list-item">
+        <div className="col-md-1 col-lg-2"></div>
+        <div className="col-md-10 col-lg-8 col-sx-12">
+            {channel.loading? (<LoadingComp />) :
+                (<ChannelComp key={i} channel={channel} />)}
+        </div>
+        <div className="col-md-1 col-lg-2"></div>
     </div>);
-};
+
+
+const ChannelListComp = props => 
+    (<div className="channel-list row">
+        {props.channels.map((channel, i) => 
+            (<ChannelListItem channel={channel} key={i} />))}
+    </div>);
 
 const HeaderComp = () => (
-    <h1>
-        <img alt="twitch" style={{height: `1em`}} src="img/twitch.png" /> 
+    <header className="text-center">
+        <a href="https://www.twitch.tv">
+            <img alt="twitch" style={{height: `1em`}} src="img/twitch.png" /> 
+        </a>
         &nbsp;streamers
-    </h1>);
+    </header>);
 
 const FooterComp = () => (
-    <div className="footer">
+    <footer className="text-center">
         github: <a href="https://github.com/lincore81/fcc-twitch">
         https://github.com/lincore81/fcc-twitch</a>
-    </div>);
+    </footer>);
 
 export const TwitchApp = props => {
-    console.log(`TwitchApp`, props);
     return (
         <div className="twitch-app container">
             <HeaderComp />
-            <ChannelListComp props={props.props} />
+            <ChannelListComp channels={props.channels} />
             <FooterComp />
         </div>);};
 
