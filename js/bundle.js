@@ -71,11 +71,11 @@
 	document.addEventListener('DOMContentLoaded', main);
 	
 	function main() {
-	    var mock = true;
+	    var mock = !!localStorage.getItem('twitch-use-cache');
 	    var state = init(mock);
 	    renderView(state);
 	    window.appState = state; // for debugging
-	    if (mock) return;
+	    if (mock && state) return;
 	    var promises = state.channels.map(_twitch.query);
 	    _promise2.default.all(promises).then(function (response) {
 	        console.log('response:', response);
@@ -87,6 +87,7 @@
 	}
 	
 	function renderView(state) {
+	    console.log('rendering state:', state);
 	    (0, _reactDom.render)(React.createElement(_view.TwitchApp, { channels: state.channelData }), document.getElementById('app'));
 	}
 	
@@ -134,10 +135,6 @@
 	    return plaintext.replace(/[&<>]/g, c => subst[c] || `?`);
 	}
 
-	function wrapUrls(plaintext) {
-	    const urlRe = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
-	    return plaintext.replace(urlRe, `<a class="external" href="$1">$1</a>`);
-	}
 
 	*/
 
@@ -1836,6 +1833,13 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	var linkify = function linkify(_ref) {
+	    var text = _ref.text;
+	
+	    var urlRe = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
+	    return text.replace(urlRe, "<a class=\"external\" href=\"$1\">$1</a>");
+	};
+	
 	var LoadingComp = function LoadingComp() {
 	    return React.createElement(
 	        "p",
@@ -1844,10 +1848,10 @@
 	    );
 	};
 	
-	var ChannelPicComp = function ChannelPicComp(_ref) {
-	    var displayName = _ref.displayName,
-	        src = _ref.src,
-	        url = _ref.url;
+	var ChannelPicComp = function ChannelPicComp(_ref2) {
+	    var displayName = _ref2.displayName,
+	        src = _ref2.src,
+	        url = _ref2.url;
 	    return React.createElement(
 	        "a",
 	        { href: url, className: "external", title: displayName + "'s channel" },
@@ -1855,12 +1859,12 @@
 	    );
 	};
 	
-	var ChannelNameComp = function ChannelNameComp(_ref2) {
-	    var displayName = _ref2.displayName,
-	        url = _ref2.url;
+	var ChannelNameComp = function ChannelNameComp(_ref3) {
+	    var displayName = _ref3.displayName,
+	        url = _ref3.url;
 	    return React.createElement(
 	        "a",
-	        { href: url, className: "external", title: displayName + "'s channel" },
+	        { href: url, className: "external channel-name-link", title: displayName + "'s channel" },
 	        React.createElement(
 	            "span",
 	            { className: "channel-name" },
@@ -1869,8 +1873,8 @@
 	    );
 	};
 	
-	var ChannelLiveIndicatorComp = function ChannelLiveIndicatorComp(_ref3) {
-	    var isLive = _ref3.isLive;
+	var ChannelLiveIndicatorComp = function ChannelLiveIndicatorComp(_ref4) {
+	    var isLive = _ref4.isLive;
 	
 	    return isLive ? React.createElement(
 	        "span",
@@ -1883,12 +1887,13 @@
 	    );
 	};
 	
-	var ChannelFollowersComp = function ChannelFollowersComp(_ref4) {
-	    var followers = _ref4.followers;
+	var ChannelFollowersComp = function ChannelFollowersComp(_ref5) {
+	    var followers = _ref5.followers;
 	    return React.createElement(
 	        "span",
 	        { title: "Followers" },
 	        React.createElement("i", { className: "fa fa-user", "aria-hidden": "true" }),
+	        "\xA0",
 	        React.createElement(
 	            "span",
 	            { className: "sr-only" },
@@ -1897,26 +1902,26 @@
 	        React.createElement(
 	            "span",
 	            { className: "channel-followers" },
-	            followers
+	            followers.toLocaleString()
 	        )
 	    );
 	};
 	
-	var ChannelBioComp = function ChannelBioComp(_ref5) {
-	    var bio = _ref5.bio;
+	var ChannelBioComp = function ChannelBioComp(_ref6) {
+	    var bio = _ref6.bio;
 	    return React.createElement(
 	        "div",
 	        { className: "channel-bio" },
-	        bio
+	        linkify(bio)
 	    );
 	};
 	
-	var ChannelComp = function ChannelComp(_ref6) {
-	    var channel = _ref6.channel;
+	var ChannelComp = function ChannelComp(_ref7) {
+	    var channel = _ref7.channel;
 	
 	    return React.createElement(
 	        "div",
-	        { className: "row channel" },
+	        null,
 	        React.createElement(
 	            "div",
 	            { className: "col-xs-2" },
@@ -1953,19 +1958,19 @@
 	    );
 	};
 	
-	var ChannelListItem = function ChannelListItem(_ref7) {
-	    var channel = _ref7.channel,
-	        i = _ref7.i;
+	var ChannelListItem = function ChannelListItem(_ref8) {
+	    var channel = _ref8.channel,
+	        i = _ref8.i;
 	    return React.createElement(
 	        "div",
-	        { className: "channel-list-item" },
-	        React.createElement("div", { className: "col-md-1 col-lg-2" }),
+	        { className: "channel-list-item row" },
+	        React.createElement("div", { className: "col-md-2 col-lg-3" }),
 	        React.createElement(
 	            "div",
-	            { className: "col-md-10 col-lg-8 col-sx-12" },
+	            { className: "col-md-8 col-lg-6 col-sx-12 channel" },
 	            channel.loading ? React.createElement(LoadingComp, null) : React.createElement(ChannelComp, { key: i, channel: channel })
 	        ),
-	        React.createElement("div", { className: "col-md-1 col-lg-2" })
+	        React.createElement("div", { className: "col-md-2 col-lg-3" })
 	    );
 	};
 	
@@ -1982,7 +1987,7 @@
 	var HeaderComp = function HeaderComp() {
 	    return React.createElement(
 	        "header",
-	        { className: "text-center" },
+	        { className: "text-center row" },
 	        React.createElement(
 	            "a",
 	            { href: "https://www.twitch.tv" },
@@ -1995,7 +2000,7 @@
 	var FooterComp = function FooterComp() {
 	    return React.createElement(
 	        "footer",
-	        { className: "text-center" },
+	        { className: "text-center row" },
 	        "github: ",
 	        React.createElement(
 	            "a",
@@ -2117,6 +2122,7 @@
 	    ans.bio = user.bio;
 	    ans.channelUrl = channel.url;
 	    ans.profilePic = channel.logo;
+	    ans.followers = channel.followers;
 	    if (isLive) ans.preview = stream.preview;
 	    return ans;
 	}
