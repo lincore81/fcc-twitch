@@ -7,11 +7,11 @@ const storageKey = `lincore.fcc-twitch-app`;
 document.addEventListener(`DOMContentLoaded`, main);
 
 function main() {
-    const mock = true;
+    const mock = !!localStorage.getItem(`twitch-use-cache`);
     const state = init(mock);
     renderView(state);
     window.appState = state; // for debugging
-    if (mock) return;
+    if (mock && state) return;
     const promises = state.channels.map(query);    
     Promise.all(promises)
         .then(response => {
@@ -24,6 +24,7 @@ function main() {
 }
 
 function renderView(state) {
+    console.log(`rendering state:`, state);
     render(<TwitchApp channels={state.channelData}/>, 
             document.getElementById(`app`));
 }
@@ -69,9 +70,5 @@ function escapeHtml(plaintext) {
     return plaintext.replace(/[&<>]/g, c => subst[c] || `?`);
 }
 
-function wrapUrls(plaintext) {
-    const urlRe = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-]*)?\??(?:[\-\+=&;%@\.\w]*)#?(?:[\.\!\/\\\w]*))?)/g;
-    return plaintext.replace(urlRe, `<a class="external" href="$1">$1</a>`);
-}
 
 */

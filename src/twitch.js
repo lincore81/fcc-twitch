@@ -78,6 +78,7 @@ function handleTwitchResponse(channelName, responses) {
     ans.bio = user.bio;
     ans.channelUrl = channel.url;
     ans.profilePic = channel.logo;
+    ans.followers = channel.followers;
     if (isLive) ans.preview = stream.preview;
     return ans;
 }

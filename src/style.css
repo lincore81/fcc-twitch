@@ -1,0 +1,44 @@
+body {
+    font-size: 12pt;
+}
+
+header {
+    font-size: 3em;
+    margin-top: 0px;
+    margin-bottom: 2em;
+    vertical-align: middle;
+}
+
+div.twitch-app.container {
+    width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.channel {
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.channel-streaming {
+    margin-left: 20px;
+    padding: 4px;
+    color: #999;
+    border: 2px #999 solid;
+}
+
+.channel-streaming.live {
+    color: #f00;
+    border-color: #f00;
+    
+}
+
+.channel-list-item:nth-child(odd) .channel {
+    background-color: lightgrey;
+    border-radius: 8px;
+}
+
+.profile-pic {
+    max-width: 100%;
+    height: auto;
+}
