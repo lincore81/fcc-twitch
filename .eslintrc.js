@@ -32,9 +32,10 @@ module.exports = {
         "no-else-return": 2,
         "no-loop-func": 2,
         "no-var": 2,
+
         "indent": [
             "error",
-            4
+            4,
         ],
         "linebreak-style": [
             "error",

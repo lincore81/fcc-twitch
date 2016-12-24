@@ -43,14 +43,28 @@ function getStreamOrChannelPromise(channelName) {
 
 
 
-// Create and send up to three twitch api queries to get stream/channel data and
-// then call handleTwitchResponse with the results (asynchronously).
+/**
+ * Send multiple queries to twitch to get all necessary channel data:
+ * 1) get info about the current live stream (includes stream and channel data if live)
+ * 2) if not live, get general data about the channel
+ * 3) if user exists (i. e. prev. queries did not return 404), get user data
+ * (for the user's "bio" field).
+ */
 export function query(channelName) {
-    return Promise.all([
-        getUserPromise(channelName), 
-        getStreamOrChannelPromise(channelName)])
-    .then(handleTwitchResponse.bind(this, channelName))
+    let firstResponse = {};
+    return getStreamOrChannelPromise(channelName)
+    .then(response => {
+        // user does not exist:
+        if (response.status === 404) return response;
+        firstResponse = response;
+        return getUserPromise(channelName);
+    })
+    .then(response => {
+        return handleTwitchResponse(channelName, [response, firstResponse]);
+    })
+    // At this point I assume a timeout occured (though it could be a different error)
     .catch(reason => {
+        console.error(reason);
         const response = catchTimeout(reason);
         return handleTwitchResponse(channelName, [null, response]);
     });
@@ -60,21 +74,24 @@ export function query(channelName) {
 // This is called by queryTwitch, so there's no need to invoke it anywhere else. 
 // I just put it here to keep queryTwitch small.
 function handleTwitchResponse(channelName, responses) {
-    console.log(channelName, responses);
+    //console.log(channelName, responses);
     const [user, channelAndStream] = responses;
     const ans = {channelName, responses};
     if (channelAndStream.error) {
-        console.error(user, channelAndStream);
+        //console.error(user, channelAndStream);
         ans.errorMessage = channelAndStream.message;
         return ans;
     }
     const isLive = !!channelAndStream.stream;
     const channel = isLive? channelAndStream.stream.channel : channelAndStream;
     const stream = channelAndStream.stream;
+    ans.exists = user.status !== 404;
+    ans.errorMessage = channelAndStream.message || user.message;
     ans.isLive = isLive;
     ans.stream = stream;
     ans.channel = channel;
     ans.displayName = channel.display_name;
+    ans.name = channelName;
     ans.bio = user.bio;
     ans.channelUrl = channel.url;
     ans.profilePic = channel.logo;

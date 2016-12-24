@@ -2,6 +2,9 @@ This is my implementation of the "Use the twitch.tv JSON API" challenge on
 freecodecamp.com
 (https://www.freecodecamp.com/challenges/use-the-twitchtv-json-api). 
 
+You can try it out here: https://lincore81.github.io/fcc-twitch
+
+
 Users see a list of channels containing info such as channel names, followers,
 whether they are live, what they are streaming etc. Channels can be added and
 removed from the list.
