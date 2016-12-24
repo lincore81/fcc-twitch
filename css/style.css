@@ -1,16 +1,36 @@
-body {
-    font-size: 12pt;
-}
-
 header {
     font-size: 3em;
-    margin-top: 0px;
-    margin-bottom: 2em;
+    margin: 0px;
     vertical-align: middle;
+    background-color: #6441a5;
+    color: white;
+}
+
+footer {
+    background-color: #6441a5;
+    color: #bb96ff;
+}
+
+footer i.icon {
+    font-size: 1.5em;
+    vertical-align: bottom;
+}
+
+footer a {
+    color: #bb96ff;
+}
+
+footer a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+input {
+    font-size: 1em;
+    height: 2em;
 }
 
 div.twitch-app.container {
-    width: 100%;
     padding-left: 0px;
     padding-right: 0px;
 }
@@ -25,33 +45,106 @@ a:hover {
     color: #6441a5;
 }
 
+button.btn-clear {
+    border: none;
+    background: none;
+    color: #6441a5; 
+    vertical-align: middle;
+}
+
+button.btn-clear:hover {
+    color: black;
+}
+
+button#btn-add {
+    font-size: 2em;
+}
+
+label {
+    margin-right: 16px;
+    font-weight: normal;
+}
+
+
+div#add-channel-comp {
+    color: #6441a5;
+    margin-bottom: 2em;
+    background-color: #bb96ff;
+    -webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.5);
+}
+
+.fullwidth {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .channel {
-    padding: 16px;
+    padding: 16px 0px;
+}
+
+.channel-header {
+    vertical-align: middle;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .channel-list-item {
     margin-bottom: 20px;
 }
 
+.channel-list-item .channel {
+    cursor: grab;
+    background-color: white;
+    border: 1px solid #ddd;
+    -webkit-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.5);
+    box-shadow: 2px 2px 2px 0px rgba(0,0,0,0.5);
+}
+    
 .channel-list-item:nth-child(odd) .channel {
-    background-color: lightgrey;
-    border-radius: 8px;
+    border: 1px solid transparent;
+    background-color: #ded7ea;
+}
+
+.channel-list-item .channel.live {
+    border: 1px solid #6441a5;
 }
 
 .channel-name {
     font-size: 1.5em;
+    vertical-align: middle;
+}
+
+
+.channel-status {
+    margin: 12px;
+    margin-top: 0;
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+img.channel-preview {
+    max-width: 100%;
+    height: auto;
 }
 
 a.channel-name-link {
     color: black;
 }
 
+
 .channel-streaming {
     margin-left: 20px;
     padding: 0px 6px;
+    font-size: small;
     color: #999;
-    border: 1px #999 solid;
-    border-radius: 12px;
+    border: 1px #999 dashed;
 }
 
 .channel-streaming.live {
@@ -61,9 +154,22 @@ a.channel-name-link {
     font-weight: bold;
 }
 
+.channel-footer {
+    margin-top: 8px;
+}
+
 
 .profile-pic {
     max-width: 100%;
     height: auto;
     vertical-align: middle;
+}
+
+.loader {
+    animation: 1s  linear 0s infinite loader-rotate;
+}
+
+@keyframes loader-rotate {
+    from { transform: rotate(0deg); }
+    to {transform: rotate(360deg); }
 }
