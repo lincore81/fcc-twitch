@@ -15,14 +15,14 @@ const ChannelNameComp = ({displayName, url}) =>
 
 const ChannelLiveIndicatorComp = ({isLive}) => {
     return isLive?
-        (<span className="channel-streaming live">L I V E</span>) : 
+        (<span className="channel-streaming live">L&nbsp;I&nbsp;V&nbsp;E</span>) : 
         (<span className="channel-streaming">offline</span>);
 };
 
 const ChannelFollowersComp = ({followers}) => (
     <span title="Followers">
         <i className="fa fa-user" aria-hidden="true"></i>&nbsp;
-        <span className="sr-only">Followers: </span>
+        <span className="sr-only">Followers:&nbsp;</span>
         <span className="channel-followers">{followers.toLocaleString()}</span>
     </span>);
 
@@ -73,7 +73,7 @@ const ChannelComp = ({channel}) => {
     if (channel.loading) body = <LoadingComp />;
     if (channel.errorMessage) body = <ChannelErrorComp errorMessage={channel.errorMessage} />;
     return (
-        <div >
+        <div className="row">
             <div className="col-xs-2">
                 <ChannelPicComp displayName={channel.displayName} url={channel.channelUrl} src={channel.profilePic} />
             </div>
@@ -100,16 +100,16 @@ const ChannelComp = ({channel}) => {
 };
 
 const ChannelListItem = ({channel, i, dragHandlers}) => {
-    const classes = `col-md-8 col-lg-6 col-sx-10 channel ${channel.isLive? `live`:``}`;
+    const classes = `col-md-8 col-lg-6 col-sm-10 col-sx-12 channel ${channel.isLive? `live`:``}`;
     return (<div className="channel-list-item row">
-        <div className="col-sx-1 col-md-2 col-lg-3"></div>
+        <div className="hidden-sx-down col-sm-1 col-md-2 col-lg-3"></div>
         <div className={classes} data-channelName={channel.channelName} draggable="true" 
             onDragStart={dragHandlers.onDragStart} 
             onDragOver={dragHandlers.onDragOver}
             onDrop={dragHandlers.onDrop}>
             {(<ChannelComp key={i} channel={channel} />)}
         </div>
-        <div className="col-sx-1 col-md-2 col-lg-3"></div>
+        <div className="hidden-sx-down col-sm-1 col-md-2 col-lg-3"></div>
     </div>);
 };
 
@@ -123,15 +123,15 @@ const ChannelListComp = props =>
 const HeaderComp = () => (
     <header className="text-center fullwidth" id="header">
         <a href="https://www.twitch.tv">
-            <img alt="twitch streamers" style={{height: `1em`}} src="img/twitch-streamers.png" /> 
+            <img className="img-fluid" alt="twitch streamers" src="img/twitch-streamers.png" /> 
         </a>
     </header>);
 
 const AddChannelComp = ({onsubmit}) => (
     <div className="text-center fullwidth" id="add-channel-comp">
         <form onSubmit={onsubmit}>
-            <label htmlFor="add-channel-input">Add channel:</label>
-            <input id="add-channel" />
+            <label htmlFor="add-channel-input">Add:</label>
+            <input id="add-channel" placeholder="channel"/>
             <button className="btn-clear" id="btn-add" type="submit" >
                 <i className="fa fa-plus-circle" aria-hidden="true"></i>
                 <span className="sr-only">Add</span>
@@ -143,9 +143,7 @@ const AddChannelComp = ({onsubmit}) => (
 const FooterComp = () => (
     <footer className="text-center fullwidth">
         <a href="https://github.com/lincore81/fcc-twitch" title="View the code on Github" >
-        <i className="icon fa fa-github" aria-hidden="true"></i>&nbsp;
-        <span>Source: </span>
-            https://github.com/lincore81/fcc-twitch</a> | <a 
+        <i className="icon fa fa-github" aria-hidden="true"></i> Source</a> | <a 
             href="https://www.freecodecamp.com">
             <i className="icon fa fa-free-code-camp" aria-hidden="true"
                 title="learn web development at Free Code Camp"></i>&nbsp;
