@@ -312,7 +312,7 @@
 	    return isLive ? React.createElement(
 	        "span",
 	        { className: "channel-streaming live" },
-	        "L I V E"
+	        "L\xA0I\xA0V\xA0E"
 	    ) : React.createElement(
 	        "span",
 	        { className: "channel-streaming" },
@@ -330,7 +330,7 @@
 	        React.createElement(
 	            "span",
 	            { className: "sr-only" },
-	            "Followers: "
+	            "Followers:\xA0"
 	        ),
 	        React.createElement(
 	            "span",
@@ -447,7 +447,7 @@
 	    if (channel.errorMessage) body = React.createElement(ChannelErrorComp, { errorMessage: channel.errorMessage });
 	    return React.createElement(
 	        "div",
-	        null,
+	        { className: "row" },
 	        React.createElement(
 	            "div",
 	            { className: "col-xs-2" },
@@ -494,11 +494,11 @@
 	        i = _ref10.i,
 	        dragHandlers = _ref10.dragHandlers;
 	
-	    var classes = "col-md-8 col-lg-6 col-sx-10 channel " + (channel.isLive ? "live" : "");
+	    var classes = "col-md-8 col-lg-6 col-sm-10 col-sx-12 channel " + (channel.isLive ? "live" : "");
 	    return React.createElement(
 	        "div",
 	        { className: "channel-list-item row" },
-	        React.createElement("div", { className: "col-sx-1 col-md-2 col-lg-3" }),
+	        React.createElement("div", { className: "hidden-sx-down col-sm-1 col-md-2 col-lg-3" }),
 	        React.createElement(
 	            "div",
 	            { className: classes, "data-channelName": channel.channelName, draggable: "true",
@@ -507,7 +507,7 @@
 	                onDrop: dragHandlers.onDrop },
 	            React.createElement(ChannelComp, { key: i, channel: channel })
 	        ),
-	        React.createElement("div", { className: "col-sx-1 col-md-2 col-lg-3" })
+	        React.createElement("div", { className: "hidden-sx-down col-sm-1 col-md-2 col-lg-3" })
 	    );
 	};
 	
@@ -528,7 +528,7 @@
 	        React.createElement(
 	            "a",
 	            { href: "https://www.twitch.tv" },
-	            React.createElement("img", { alt: "twitch streamers", style: { height: "1em" }, src: "img/twitch-streamers.png" })
+	            React.createElement("img", { className: "img-fluid", alt: "twitch streamers", src: "img/twitch-streamers.png" })
 	        )
 	    );
 	};
@@ -544,9 +544,9 @@
 	            React.createElement(
 	                "label",
 	                { htmlFor: "add-channel-input" },
-	                "Add channel:"
+	                "Add:"
 	            ),
-	            React.createElement("input", { id: "add-channel" }),
+	            React.createElement("input", { id: "add-channel", placeholder: "channel" }),
 	            React.createElement(
 	                "button",
 	                { className: "btn-clear", id: "btn-add", type: "submit" },
@@ -569,13 +569,7 @@
 	            "a",
 	            { href: "https://github.com/lincore81/fcc-twitch", title: "View the code on Github" },
 	            React.createElement("i", { className: "icon fa fa-github", "aria-hidden": "true" }),
-	            "\xA0",
-	            React.createElement(
-	                "span",
-	                null,
-	                "Source: "
-	            ),
-	            "https://github.com/lincore81/fcc-twitch"
+	            " Source"
 	        ),
 	        " | ",
 	        React.createElement(

@@ -6,9 +6,16 @@ header {
     color: white;
 }
 
+header img {
+    width: 300px;
+    max-width: 100%;
+    height: auto;
+}
+
 footer {
     background-color: #6441a5;
     color: #bb96ff;
+    font-size: 1.2em;
 }
 
 footer i.icon {
@@ -27,7 +34,25 @@ footer a:hover {
 
 input {
     font-size: 1em;
-    height: 2em;
+    height: 2.2em;
+    margin: 0px 4px;
+    padding: 4px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #6441a5;
+    color: black;
+}
+
+::-webkit-input-placeholder {
+   font-style: italic;
+}
+:-moz-placeholder {
+   font-style: italic;  
+}
+::-moz-placeholder {
+   font-style: italic;  
+}
+:-ms-input-placeholder {  
+   font-style: italic; 
 }
 
 div.twitch-app.container {
@@ -45,6 +70,10 @@ a:hover {
     color: #6441a5;
 }
 
+.channel button {
+    font-size: 1.2em;
+}
+
 button.btn-clear {
     border: none;
     background: none;
@@ -56,13 +85,20 @@ button.btn-clear:hover {
     color: black;
 }
 
+.btn-channel: {
+    font-size: 1.5em;
+}
+
 button#btn-add {
     font-size: 2em;
 }
 
+
+
 label {
-    margin-right: 16px;
     font-weight: normal;
+    /* I _think_ this aligns it with the text in the input-field: */
+    vertical-align: text-top;
 }
 
 
@@ -84,15 +120,15 @@ div#add-channel-comp {
 }
 
 .channel {
-    padding: 16px 0px;
+    padding: 16px 16px;
 }
 
 .channel-header {
-    vertical-align: middle;
     padding-bottom: 10px;
     margin-bottom: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
+
 
 .channel-list-item {
     margin-bottom: 20px;
@@ -144,6 +180,7 @@ a.channel-name-link {
     padding: 0px 6px;
     font-size: small;
     color: #999;
+    vertical-align: middle;
     border: 1px #999 dashed;
 }
 
@@ -152,6 +189,7 @@ a.channel-name-link {
     background-color: #6441a5;
     border-color: transparent;
     font-weight: bold;
+
 }
 
 .channel-footer {
